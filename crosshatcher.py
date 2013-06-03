@@ -38,34 +38,33 @@ im = Image.open(imagename)
 pix = im.load()
 image_width = 0.0 + im.size[0];
 image_height = 0.0 + im.size[1];
-screen_width = 700 
+screen_width = 3000 
 screen_height = int(screen_width * image_height / image_width);
-
-scaling_factor = (1.1 * screen_height) / (0.0 + image_height);
+print image_width, image_height, screen_width, screen_height
 
 # origin on screen
-osx = (screen_width / 2.0) - (image_width / 2.0) * scaling_factor;
-osy = (screen_height * 0.1);
+osx = 0;
+osy = 0;
 
 black = (0, 0, 0)
 white = (255, 255, 255)
 nlayers = 15;
-linespacing = 6;
+linespacing = 20;
 
-radius = math.sqrt(2.0) * (1.1 * image_height);
+radius = math.sqrt(2.0) * (1.1 * screen_height);
 
-if image_width > image_height:
-   radius = sqrt(2.0) * (1.1 * image_width)
+if screen_width > screen_height:
+   radius = sqrt(2.0) * (1.1 * screen_width)
 
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode([screen_width, screen_height])
 pygame.display.update()
 
 # screen x to image x
 def sxtoix(sx):
-  return (sx - osx) / scaling_factor;
+  return (image_width * sx) / screen_width;
 
 def sytoiy(sy):
-  return (sy - osy) / scaling_factor;
+  return (image_height * sy) / screen_height;
 
 def sampleimg(sx, sy):
    ix = sxtoix(sx)
@@ -111,8 +110,8 @@ def do_a_line(threshold, p1, p2):
 
 def do_layer(layer, threshold, angle):
    count = int((radius * 2.0) / linespacing);
-   cx = image_width / 2.0;
-   cy = image_height / 2.0;
+   cx = screen_width / 2.0;
+   cy = screen_height / 2.0;
    for i in range(-count / 2, count / 2):
       x1 = cx + (i * linespacing);
       y1 = cy - radius * 2;
@@ -125,6 +124,7 @@ def do_layer(layer, threshold, angle):
 
 screen.fill(white)
 for i in range(1, nlayers):
-   do_layer(i, i * 256 / nlayers, i * 105 * math.pi / 180.0);
+   do_layer(i, i * 256 / nlayers, i * 127 * math.pi / 180.0);
 
-time.sleep(60);
+pygame.image.save(screen, "output.png");
+
