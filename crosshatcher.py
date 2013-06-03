@@ -121,11 +121,10 @@ def do_layer(layer, threshold, angle):
       p1 = rotate_point((x1, y1), angle);
       p2 = rotate_point((x2, y2), angle); 
       do_a_line(threshold, p1, p2);
+      pygame.display.update()
 
 screen.fill(white)
 for i in range(1, nlayers):
    do_layer(i, i * 256 / nlayers, i * 105 * math.pi / 180.0);
-
-pygame.display.update()
 
 time.sleep(60);
