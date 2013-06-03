@@ -123,7 +123,6 @@ def do_layer(layer, threshold, angle):
       do_a_line(threshold, p1, p2);
 
 screen.fill(white)
-pygame.draw.line(screen, black, (0, 0), (100, 100), 1);
 for i in range(1, nlayers):
    do_layer(i, i * 256 / nlayers, i * 105 * math.pi / 180.0);
 
