@@ -1,4 +1,10 @@
-crosshatcher
+Crosshatcher
 ============
 
-Little python program to make cross-hatched effect based on input jpeg image.
+Crosshatcher renders an image in a crosshatching technique via an
+interesting method.
+
+The method is as follows:
+
+TODO: fill this in.
+

@@ -1,0 +1,28 @@
+The file "image.jpg" is an image modified version of the image 
+originally found here: http://en.wikipedia.org/wiki/File:Lincoln_Memorial.jpg
+
+This image is licensed as follows:
+-----------
+(c) 2007 Jeff Kubina 
+
+This file is licensed under the Creative Commons Attribution-Share Alike 2.0 Generic license. (see http://creativecommons.org/licenses/by-sa/2.0/deed.en )
+
+    You are free:
+
+        to share – to copy, distribute and transmit the work
+        to remix – to adapt the work
+
+    Under the following conditions:
+
+	attribution – You must attribute the work in the manner specified by
+the author or licensor (but not in any way that suggests that they endorse you
+or your use of the work).
+
+	share alike – If you alter, transform, or build upon this work, you may
+distribute the resulting work only under the same or similar license to this
+one.
+-------------
+
+The modification I have done consists only of adjusting contrast,
+cropping, scaling, and converting to grayscale.
+
