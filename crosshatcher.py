@@ -79,12 +79,14 @@ def sampleimg(sx, sy):
       return 0
    return pix[ix, iy]
 
-def rotate_point(p, angle):
+def rotate_point(p, c, angle):
    x = p[0];
    y = p[1];
-   rx = x * math.cos(angle) - y * math.sin(angle);
-   ry = x * math.sin(angle) + y * math.cos(angle);
-   return (rx, ry);
+   cx = c[0];
+   cy = c[1];
+   rx = (x - cx) * math.cos(angle) - (y - cy) * math.sin(angle);
+   ry = (x - cx) * math.sin(angle) + (y - cy) * math.cos(angle);
+   return (rx + cx, ry + cy);
 
 def hypot(p1, p2):
    return math.sqrt((p1[0] - p2[0]) * (p1[0] - p2[0]) +
@@ -117,8 +119,8 @@ def do_layer(layer, threshold, angle):
       y1 = cy - radius * 2;
       x2 = x1;
       y2 = cy + radius * 2;
-      p1 = rotate_point((x1, y1), angle);
-      p2 = rotate_point((x2, y2), angle); 
+      p1 = rotate_point((x1, y1), (cx, cy), angle);
+      p2 = rotate_point((x2, y2), (cx, cy), angle); 
       do_a_line(threshold, p1, p2);
       pygame.display.update()
 
