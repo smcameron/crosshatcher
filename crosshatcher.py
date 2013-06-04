@@ -54,7 +54,7 @@ linespacing = 20;
 radius = math.sqrt(2.0) * (1.1 * screen_height);
 
 if screen_width > screen_height:
-   radius = sqrt(2.0) * (1.1 * screen_width)
+   radius = math.sqrt(2.0) * (1.1 * screen_width)
 
 screen = pygame.display.set_mode([screen_width, screen_height])
 pygame.display.update()
