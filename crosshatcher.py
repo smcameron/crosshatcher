@@ -104,8 +104,8 @@ def do_a_line(threshold, p1, p2):
       y1 = p1[1] + dy * i;
       x2 = p1[0] + dx * (i + 1);
       y2 = p1[1] + dy * (i + 1);
-      mx = (x2 - x1 / 2.0) + x1;
-      my = (y2 - y1 / 2.0) + y1;
+      mx = ((x2 - x1) / 2.0) + x1;
+      my = ((y2 - y1) / 2.0) + y1;
       s = sampleimg(mx, my);
       if s <= threshold:
          pygame.draw.line(screen, black, (x1, y1), (x2, y2), 1);
