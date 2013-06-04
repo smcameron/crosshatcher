@@ -127,4 +127,9 @@ for i in range(1, nlayers):
    do_layer(i, i * 256 / nlayers, i * 127 * math.pi / 180.0);
 
 pygame.image.save(screen, "output.png");
+print
+print
+print "Saved output image to output.png"
+print
+print
 
