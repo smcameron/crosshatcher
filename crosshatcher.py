@@ -94,7 +94,7 @@ def hypot(p1, p2):
 
 def do_a_line(threshold, p1, p2):
    d = hypot(p1, p2);
-   seglen = linespacing * 2.0;
+   seglen = linespacing;
    nsegs = int(d / seglen);
 
    dx = (p2[0] - p1[0]) / nsegs;
