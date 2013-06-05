@@ -51,6 +51,8 @@ white = (255, 255, 255)
 nlayers = 15;
 linespacing = 20;
 
+myfile = open('lines.txt', 'w+');
+
 radius = math.sqrt(2.0) * (1.1 * screen_height);
 
 if screen_width > screen_height:
@@ -96,6 +98,7 @@ def do_a_line(threshold, p1, p2):
    d = hypot(p1, p2);
    seglen = linespacing;
    nsegs = int(d / seglen);
+   pendown = 0;
 
    dx = (p2[0] - p1[0]) / nsegs;
    dy = (p2[1] - p1[1]) / nsegs;
@@ -108,7 +111,18 @@ def do_a_line(threshold, p1, p2):
       my = ((y2 - y1) / 2.0) + y1;
       s = sampleimg(mx, my);
       if s <= threshold:
+         if pendown != 1:
+            pendown = 1;
+            print >> myfile, "start line ", x1, y1
          pygame.draw.line(screen, black, (x1, y1), (x2, y2), 1);
+      else:
+         if pendown == 1:
+            pendown = 0;
+            print >> myfile, "end line ", x1, y1;
+
+      if pendown == 1:
+            pendown = 0;
+            print >> myfile, "end line ", x1, y1;
 
 def do_layer(layer, threshold, angle):
    count = int((radius * 2.0) / linespacing);
@@ -127,6 +141,8 @@ def do_layer(layer, threshold, angle):
 screen.fill(white)
 for i in range(1, nlayers):
    do_layer(i, i * 256 / nlayers, i * 127 * math.pi / 180.0);
+
+myfile.close();
 
 pygame.image.save(screen, "output.png");
 print
