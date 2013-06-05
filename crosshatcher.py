@@ -27,6 +27,7 @@ import Image
 import random
 import math
 import time
+import liangbarsky
 
 imagename = "image.jpg";
 if (len(sys.argv) >= 2):
@@ -134,6 +135,12 @@ def do_layer(layer, threshold, angle):
       y2 = cy + radius * 2;
       p1 = rotate_point((x1, y1), (cx, cy), angle);
       p2 = rotate_point((x2, y2), (cx, cy), angle); 
+
+      clipped_line = liangbarsky.liangbarsky(0, 0, screen_width, screen_height, p1[0], p1[1], p2[0], p2[1]);
+      if (clipped_line[0] is None):
+         continue;
+      p1 = (clipped_line[0], clipped_line[1])
+      p2 = (clipped_line[2], clipped_line[3])
       do_a_line(threshold, p1, p2);
       pygame.display.update()
 
