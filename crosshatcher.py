@@ -48,10 +48,13 @@ osy = 0;
 
 black = (0, 0, 0)
 white = (255, 255, 255)
-nlayers = 15;
+nlayers = 10;
 linespacing = 20;
 
 myfile = open('lines.txt', 'w+');
+svgfile = open('lines.svg', 'w+');
+print >> svgfile, "<svg height=\"", image_height, "\" width=\"", image_width, "\" style=\"background-color:#ffffff00\" version=\"1.1\"  xmlns=\"http://www.w3.org/2000/svg\">"
+print >> svgfile, "<path d=\"",
 
 radius = math.sqrt(2.0) * (1.1 * screen_height);
 
@@ -114,15 +117,19 @@ def do_a_line(threshold, p1, p2):
          if pendown != 1:
             pendown = 1;
             print >> myfile, "start line ", x1, y1
+            print >> svgfile, "M", x1, y1,
+
          pygame.draw.line(screen, black, (x1, y1), (x2, y2), 1);
       else:
          if pendown == 1:
             pendown = 0;
             print >> myfile, "end line ", x1, y1;
+            print >> svgfile, "L ", x1, y1
 
       if pendown == 1:
             pendown = 0;
-            print >> myfile, "end line ", x1, y1;
+            print >> myfile, "end line ", x2, y2;
+            print >> svgfile, "L ", x2, y2
 
 def do_layer(layer, threshold, angle):
    count = int((radius * 2.0) / linespacing);
@@ -150,10 +157,14 @@ for i in range(1, nlayers):
 
 myfile.close();
 
+print >> svgfile, "Z \" style=\"fill:none;stroke:black;stroke-width:1\"/>"
+print >> svgfile, "</svg>"
+svgfile.close();
+
 pygame.image.save(screen, "output.png");
 print
 print
-print "Saved output image to output.png"
+print "Saved output image to output.png, lines.txt, and lines.svg"
 print
 print
 
