@@ -100,6 +100,8 @@ def do_a_line(threshold, p1, p2):
    d = hypot(p1, p2);
    seglen = linespacing;
    nsegs = int(d / seglen);
+   if nsegs == 0:
+     return;
    pendown = 0;
    startx = p1[0];
    starty = p1[1];
