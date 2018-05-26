@@ -29,8 +29,9 @@ import math
 import time
 
 imagename = "image.jpg";
-if (len(sys.argv) >= 2):
+if len(sys.argv) >= 2:
   imagename = sys.argv[1];
+
 
 im = Image.open(imagename)
 
@@ -38,6 +39,11 @@ pix = im.load()
 image_width = 0.0 + im.size[0];
 image_height = 0.0 + im.size[1];
 screen_width = 3000 
+if len(sys.argv) >= 3:
+  screen_width = int(sys.argv[2]);
+  if screen_width == 0:
+    screen_width = 3000;
+
 screen_height = int(screen_width * image_height / image_width);
 print image_width, image_height, screen_width, screen_height
 
@@ -49,6 +55,10 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 nlayers = 10;
 linespacing = 20;
+if len(sys.argv) >= 4:
+  linespacing = int(sys.argv[3]);
+  if linespacing == 0:
+    linespacing = 20;
 
 myfile = open('lines.txt', 'w+');
 svgfile = open('lines.svg', 'w+');
