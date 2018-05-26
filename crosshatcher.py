@@ -53,12 +53,17 @@ osy = 0;
 
 black = (0, 0, 0)
 white = (255, 255, 255)
-nlayers = 10;
 linespacing = 20;
 if len(sys.argv) >= 4:
   linespacing = int(sys.argv[3]);
   if linespacing == 0:
     linespacing = 20;
+
+nlayers = 10;
+if len(sys.argv) >= 5:
+  nlayers = int(sys.argv[4]);
+  if nlayers == 0:
+    nlayers = 10;
 
 myfile = open('lines.txt', 'w+');
 svgfile = open('lines.svg', 'w+');
