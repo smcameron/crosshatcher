@@ -53,7 +53,7 @@ linespacing = 20;
 
 myfile = open('lines.txt', 'w+');
 svgfile = open('lines.svg', 'w+');
-print >> svgfile, "<svg height=\"", image_height, "\" width=\"", image_width, "\" style=\"background-color:#ffffff00\" version=\"1.1\"  xmlns=\"http://www.w3.org/2000/svg\">"
+print >> svgfile, "<svg height=\"%d\" width=\"%d\" style=\"background-color:#ffffff00\" version=\"1.1\"  xmlns=\"http://www.w3.org/2000/svg\">" % (screen_height, screen_width)
 print >> svgfile, "<path d=\"",
 
 radius = math.sqrt(2.0) * (1.1 * screen_height);
