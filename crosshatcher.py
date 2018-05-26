@@ -102,6 +102,8 @@ def do_a_line(threshold, p1, p2):
    seglen = linespacing;
    nsegs = int(d / seglen);
    pendown = 0;
+   startx = p1[0];
+   starty = p1[1];
 
    dx = (p2[0] - p1[0]) / nsegs;
    dy = (p2[1] - p1[1]) / nsegs;
@@ -117,19 +119,20 @@ def do_a_line(threshold, p1, p2):
          if pendown != 1:
             pendown = 1;
             print >> myfile, "start line ", x1, y1
-            print >> svgfile, "M", x1, y1,
-
-         pygame.draw.line(screen, black, (x1, y1), (x2, y2), 1);
+            startx = x1;
+            starty = y1;
+         else:
+            if pendown == 1 and i == nsegs - 2:
+               print >> myfile, "end line ", x2, y2;
+	       print >> svgfile, "M ", startx, starty, "L ", x2, y2
+               pygame.draw.line(screen, black, (startx, starty), (x1, y1), 1);
+               pendown = 0;
       else:
          if pendown == 1:
             pendown = 0;
-            print >> myfile, "end line ", x1, y1;
-            print >> svgfile, "L ", x1, y1
-
-      if pendown == 1:
-            pendown = 0;
             print >> myfile, "end line ", x2, y2;
-            print >> svgfile, "L ", x2, y2
+            print >> svgfile, "M ", startx, starty, "L ", mx, my
+            pygame.draw.line(screen, black, (startx, starty), (mx, my), 1);
 
 def do_layer(layer, threshold, angle):
    count = int((radius * 2.0) / linespacing);
