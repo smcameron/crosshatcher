@@ -27,7 +27,6 @@ import Image
 import random
 import math
 import time
-import liangbarsky
 
 imagename = "mona-lisa.jpg";
 # imagename = "cyclekart-blue.jpg";
@@ -136,6 +135,8 @@ def do_a_line(threshold, p1, p2, color):
    d = hypot(p1, p2);
    seglen = linespacing;
    nsegs = int(d / seglen);
+   if nsegs == 0:
+     return;
    pendown = 0;
 
    dx = (p2[0] - p1[0]) / nsegs;
@@ -162,6 +163,63 @@ def do_a_line(threshold, p1, p2, color):
             pendown = 0;
             print >> myfile, "end line ", x1, y1;
 
+def is_zero(v):
+  if v > -0.0000001 and v < 0.0000001:
+    return True;
+  return False;
+
+def point_inside(clip_window, x, y):
+  return x >= clip_window[0] and x <= clip_window[2] and y >= clip_window[1] and y <= clip_window[3];
+
+def clipT(num, denom, tE, tL):
+  if is_zero(denom):
+    return (num < 0.0, tE, tL);
+  t = num / denom;
+  if (denom > 0.0):
+    if t > tL:
+      return (False, tE, tL);
+    if t > tE:
+	tE = t;
+  else:
+    if t < tE:
+      return (False, tE, tL);
+    if t < tL:
+      tL = t;
+  return (True, tE, tL);
+
+def clip_line(left, top, right, bottom, x1, y1, x2, y2):
+  clip = (left, top, right, bottom)
+  dx = x2 - x1;
+  dy = y2 - y1;
+  if is_zero(dx) and is_zero(dy) and point_inside(clip, x1, y1):
+    return (True, x1, y1, x2, y2);
+  tE = 0;
+  tL = 1;
+  cr = clipT(clip[0] - x1, dx, tE, tL);
+  tE = cr[1];
+  tL = cr[2];
+  if cr[0]:
+    cr = clipT(x1 - clip[2], -dx, tE, tL);
+    tE = cr[1];
+    tL = cr[2];
+    if cr[0]:
+      cr = clipT(clip[1] - y1, dy, tE, tL);
+      tE = cr[1];
+      tL = cr[2];
+      if cr[0]:
+        cr = clipT(y1 - clip[3], -dy, tE, tL);
+        tE = cr[1];
+        tL = cr[2];
+        if cr[0]:
+          if tL < 1:
+            x2 = x1 + tL * dx;
+            y2 = y1 + tL * dy;
+          if tE > 0:
+            x1 = x1 + tE * dx;
+            y1 = y1 + tE * dy;
+          return (True, x1, y1, x2, y2);
+  return (False, x1, y1, x2, y2);
+
 def do_layer(layer, threshold, angle, color):
    count = int((radius * 2.0) / linespacing);
    cx = screen_width / 2.0;
@@ -174,11 +232,11 @@ def do_layer(layer, threshold, angle, color):
       p1 = rotate_point((x1, y1), (cx, cy), angle);
       p2 = rotate_point((x2, y2), (cx, cy), angle); 
 
-      clipped_line = liangbarsky.liangbarsky(0, 0, screen_width, screen_height, p1[0], p1[1], p2[0], p2[1]);
-      if (clipped_line[0] is None):
+      clipped_line = clip_line(0, 0, screen_width, screen_height, p1[0], p1[1], p2[0], p2[1]);
+      if not clipped_line[0]:
          continue;
-      p1 = (clipped_line[0], clipped_line[1])
-      p2 = (clipped_line[2], clipped_line[3])
+      p1 = (clipped_line[1], clipped_line[2])
+      p2 = (clipped_line[3], clipped_line[4])
       do_a_line(threshold, p1, p2, color);
       pygame.display.update()
 
