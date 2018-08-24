@@ -23,7 +23,7 @@
 import pygame
 import time
 import os, sys
-import Image
+from PIL import Image
 import random
 import math
 import time
